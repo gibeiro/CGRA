@@ -106,24 +106,6 @@ LightingScene.prototype.init = function(application) {
 	this.boardAppearance.setShininess(120);
 	this.boardAppearance.loadTexture("../resources/images/board.png");
 
-	this.metalAppearance = new CGFappearance(this);
-	this.metalAppearance.setAmbient(0.2, 0.2, 0.2, 1);
-	this.metalAppearance.setDiffuse(0.2, 0.2, 0.2 ,1);
-	this.metalAppearance.setSpecular(0.5, 0.5, 0.5, 1);
-	this.metalAppearance.setShininess(120);
-	this.metalAppearance.loadTexture("../resources/images/clock.png");
-
-	
-
-
-	//Clock texture pls work
-	/*this.clockAppearance = new CGFappearance(this.scene);
-    this.clockAppearance.setDiffuse(0.2, 0.2, 0.2, 1);
-    this.clockAppearance.setSpecular(0.4, 0.4, 0.4, 1);
-    this.clockAppearance.setAmbient(0.2, 0.2, 0.2, 1);
-    this.clockAppearance.setShininess(7);
-	this.clockAppearance.loadTexture("../resources/images/clock.png");*/
-
 	this.setUpdatePeriod(100);
 
 };
@@ -137,22 +119,17 @@ LightingScene.prototype.initLights = function() {
 	
 	// Positions for four lights
 	this.lights[0].setPosition(4, 6, 1, 1);
-	this.lights[0].setVisible(true); // show marker on light position (different from enabled)
+	this.lights[0].setVisible(true);
 	
 	this.lights[1].setPosition(10.5, 6.0, 1.0, 1.0);
-	this.lights[1].setVisible(true); // show marker on light position (different from enabled)
+	this.lights[1].setVisible(true);
 
 	this.lights[2].setPosition(10.5, 6.0, 5.0, 1.0);
 	this.lights[2].setVisible(true);
 
 	this.lights[3].setPosition(4, 6, 5, 1);
 	this.lights[3].setVisible(true);
-
-	//this.lights[2].setPosition(10.5, 6.0, 5.0, 1.0);
-	//this.lights[1].setVisible(true); // show marker on light position (different from enabled)
-	//this.lights[3].setPosition(4, 6.0, 5.0, 1.0);
-	//this.lights[1].setVisible(true); // show marker on light position (different from enabled)
-
+	
 	this.lights[0].setAmbient(0, 0, 0, 1);
 	this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
 	this.lights[0].setSpecular(1.0, 1.0, 0, 1.0);
@@ -214,15 +191,7 @@ LightingScene.prototype.display = function() {
 	
 	// ---- BEGIN Geometric transformation section
 
-	// ---- END Geometric transformation section
-
-
-	// ---- BEGIN Primitive drawing section
-
-	
-
-	
-	// Plane Wall
+// Plane Wall
 	this.pushMatrix();
 		this.translate(7.5, 4, 0);
 		this.scale(15, 8, 0.2);
@@ -280,34 +249,16 @@ LightingScene.prototype.display = function() {
 	//Clock
 	this.windowAppearance.apply();
 	this.pushMatrix();
-	this.metalAppearance.apply();
+	//this.metalAppearance.apply();
 	this.scale(0.8, 0.8, 0.2);
 	this.translate(9, 9, 0);
 	this.clock.display();
 	this.popMatrix();
 
-	//Drone
-	this.pushMatrix();
-	//this.rotate(-2*Math.PI/3-Math.PI/4,0,1,0);
-
-	this.rotate(this.drone.rotate, 0, 1, 0);
-
-	//this.translate(-6, 4 , -10);
-	this.translate(this.drone.xpos, this.drone.ypos, this.drone.zpos);
-	//this.translate(this.drone.ypos, this.drone.xpos, this.drone.altitude);
-	//this.translate(this.drone.altitude, this.drone.xpos, this.drone.ypos);
-	//this.translate(this.drone.altitude, this.drone.ypos, this.drone.xpos);
-	this.drone.display();
-	this.popMatrix();
-
-	// ---- END Primitive drawing section	
+	//Drone	
+	this.drone.draw(this);
+	// ---- END Geometric transformation section	
 };
-
-
-
-
-
-
 
 LightingScene.prototype.LightsUpdate = function(currTime)
 {
@@ -361,10 +312,3 @@ LightingScene.prototype.update = function(currTime)
 	this.clock.update(currTime);
 	this.LightsUpdate(currTime);
 };
-
-
-
-LightingScene.prototype.doSomething = function () {
-	
-	console.log("Doing something...");
-}; 

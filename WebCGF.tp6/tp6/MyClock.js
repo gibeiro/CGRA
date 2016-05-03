@@ -6,7 +6,15 @@ function MyClock(scene, slices, stacks)
     this.stacks = stacks;
     this.updatePeriod = 100; //miliseconds
 
-   this.clockAppearance = new CGFappearance(this.scene);
+    this.metalAppearance = new CGFappearance(scene);
+
+	this.metalAppearance.setAmbient(0.2, 0.2, 0.2, 1);
+	this.metalAppearance.setDiffuse(0.2, 0.2, 0.2 ,1);
+	this.metalAppearance.setSpecular(0.5, 0.5, 0.5, 1);
+	this.metalAppearance.setShininess(120);
+
+
+   this.clockAppearance = new CGFappearance(scene);
    this.clockAppearance.setDiffuse(0.9, 0.9, 0.9, 1);
    this.clockAppearance.setSpecular(0.4, 0.4, 0.4, 1);
    this.clockAppearance.setAmbient(0.9, 0.9, 0.9, 1);
@@ -14,7 +22,7 @@ function MyClock(scene, slices, stacks)
    this.clockAppearance.loadTexture("../resources/images/clock.png");
 
 
-   this.ponteiroAppearance = new CGFappearance(this.scene);
+   this.ponteiroAppearance = new CGFappearance(scene);
    this.ponteiroAppearance.setDiffuse(0.0, 0.0, 0.0, 1);
    this.ponteiroAppearance.setSpecular(0.0, 0.0, 0.0, 1);
    this.ponteiroAppearance.setAmbient(0.0, 0.0, 0.0, 1);
@@ -22,34 +30,29 @@ function MyClock(scene, slices, stacks)
 
 
 
-   this.cylinder = new MyCylinder(this.scene, slices, stacks);
+   this.cylinder = new MyCylinder(scene, slices, stacks);
    this.cylinder.initBuffers();
 
-   this.tampa = new MyCircle(this.scene, slices, stacks);
+   this.tampa = new MyCircle(scene, slices, stacks);
    this.tampa.initBuffers();
 
-   this.hours = new MyClockHand(this.scene, 0.7, 0);
+   this.hours = new MyClockHand(scene, 0.7, 0);
    this.hours.initBuffers();
 
-   this.minutes = new MyClockHand(this.scene, 1, 0);
+   this.minutes = new MyClockHand(scene, 1, 0);
    this.minutes.initBuffers();
 
-   this.seconds = new MyClockHand(this.scene, 1.2, 0);
+   this.seconds = new MyClockHand(scene, 1.2, 0);
    this.seconds.initBuffers();
 };
 
     MyClock.prototype = Object.create(CGFobject.prototype);
     MyClock.prototype.constructor = MyClock;
 
-
-    /*MyClock.prototype.display = function()
-    {
-        this.cylinder.display();
-    }*/
-
     MyClock.prototype.display = function()
-    {
-       
+    {       
+ 
+        this.metalAppearance.apply();
  
         this.scene.pushMatrix();
      

@@ -30,7 +30,7 @@ MyInterface.prototype.init = function(application) {
 	// the identifier 'doSomething' must be a function declared as part of that object (i.e. a member of the scene class)
 	// e.g. LightingScene.prototype.doSomething = function () { console.log("Doing something..."); }; 
 
-	this.gui.add(this.scene, 'doSomething');	
+	//this.gui.add(this.scene, 'doSomething');	
 
 	// add a group of controls (and open/expand by defult)
 	
@@ -73,14 +73,16 @@ MyInterface.prototype.processKeyboard = function(event) {
 	// for better cross-browser support, you may also check suggestions on using event.which in http://www.w3schools.com/jsref/event_key_keycode.asp
 	switch (event.keyCode)
 	{
-		case (65):	// only works for capital 'A', as it is
-			//console.log("Key 'A' pressed");
+
+		//A
+		case (65):
 			this.scene.drone.rotateLeft(this.scene.speed);
 			break;
 		case (97):
 			this.scene.drone.rotateLeft(this.scene.speed);
 			break;
 
+		//D
 		case (100):
 			this.scene.drone.rotateRight(this.scene.speed);
 			break;
@@ -88,6 +90,7 @@ MyInterface.prototype.processKeyboard = function(event) {
 			this.scene.drone.rotateRight(this.scene.speed);
 			break;
 
+		//W
 		case (119):
 			this.scene.drone.moveForward(this.scene.speed);
 			break;
@@ -95,6 +98,7 @@ MyInterface.prototype.processKeyboard = function(event) {
 			this.scene.drone.moveForward(this.scene.speed);
 			break;
 
+		//S
 		case (115):
 			this.scene.drone.moveBackward(this.scene.speed);
 			break;
@@ -102,6 +106,7 @@ MyInterface.prototype.processKeyboard = function(event) {
 			this.scene.drone.moveBackward(this.scene.speed);
 			break;
 
+		//I
 		case (105):
 			this.scene.drone.moveUp(this.scene.speed);
 			break;
@@ -109,6 +114,7 @@ MyInterface.prototype.processKeyboard = function(event) {
 			this.scene.drone.moveUp(this.scene.speed);
 			break;
 
+		//J
 		case (106):
 			this.scene.drone.moveDown(this.scene.speed);
 			break;
