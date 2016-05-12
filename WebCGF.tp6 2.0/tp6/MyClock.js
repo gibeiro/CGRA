@@ -26,7 +26,7 @@ function MyClock(scene, slices, stacks)
    this.ponteiroAppearance.setDiffuse(0.0, 0.0, 0.0, 1);
    this.ponteiroAppearance.setSpecular(0.0, 0.0, 0.0, 1);
    this.ponteiroAppearance.setAmbient(0.0, 0.0, 0.0, 1);
-    this.ponteiroAppearance.setShininess(0);
+   this.ponteiroAppearance.setShininess(0);
 
 
 

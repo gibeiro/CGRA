@@ -40,6 +40,7 @@
 	//gerar os vertices das faces
 	for(i = 0; i < this.stacks + 1; i++){
 		for(j = 0; j < this.slices; j++){
+	
 
 			this.vertices.push(Math.sin(j*Math.PI*2/this.slices),Math.cos(j*Math.PI*2/this.slices),i*stack_h);
 			this.normals.push(Math.sin(j*Math.PI*2/this.slices),Math.cos(j*Math.PI*2/this.slices),0);
@@ -58,9 +59,21 @@
 			);
 
 			this.indices.push(
+			this.slices + this.slices*i + j,
+			this.slices + this.slices*i + 1 + j,
+			this.slices + this.slices*i + this.slices + j
+			);
+
+			this.indices.push(
 			this.slices + this.slices*i + 1 + j,
 			this.slices + this.slices*i + this.slices + j,
 			this.slices + this.slices*i + this.slices + 1 + j
+			);
+
+			this.indices.push(
+			this.slices + this.slices*i + this.slices + 1 + j,
+			this.slices + this.slices*i + this.slices + j,
+			this.slices + this.slices*i + 1 + j
 			);
 			
 		}

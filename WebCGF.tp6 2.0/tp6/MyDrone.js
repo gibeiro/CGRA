@@ -67,6 +67,11 @@ function MyDrone(scene, slices, stacks)
     this.dronehelicebase4.initBuffers();
 
 
+    //helixes
+    this.helix1 = new MyDroneHelix(scene, stacks, slices);
+    this.helix1.initBuffers();
+
+
    this.initBuffers();
 };
 
@@ -363,6 +368,19 @@ MyDrone.prototype.display = function()
     this.dronehelicebase4.display();
     this.scene.popMatrix();
 
+    this.scene.pushMatrix();
+    this.scene.translate(0, 0.2, 1.6);
+    this.scene.scale(0.05, 0.01, 0.8);
+    //this.scene.rotate(this.helix1.angulo*(Math.PI/180), 0, 0, 1);
+    this.helix1.display();
+    this.scene.popMatrix();
+
     this.scene.popMatrix();
     
+};
+
+
+MyDrone.prototype.update = function(currTime)
+{
+    this.helix1.setAngle((currTime/1000)*this.helix1.angulo*(Math.PI/180));
 };
