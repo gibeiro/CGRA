@@ -1,4 +1,4 @@
-function MyDroneHelix(scene, stacks, slices)
+function MyDroneHelix(scene, stacks, slices, angulo)
 {
     CGFobject.call(this, scene);
     this.angle = 1;
@@ -6,6 +6,8 @@ function MyDroneHelix(scene, stacks, slices)
     this.scene = scene;
     this.stacks = stacks;
     this.slices = slices;
+
+    this.angulo = angulo;
 
     this.helix = new MyCylinder(scene, stacks, slices)
     this.helix.initBuffers();
@@ -18,13 +20,12 @@ MyDroneHelix.prototype.constructor = MyDroneHelix;
 
 MyDroneHelix.prototype.setAngle = function(angulo)
 {
-    this.angle = angulo;
+    this.angulo = angulo;
 };
 
 
 MyDroneHelix.prototype.display = function()
 {
-    this.scene.pushMatrix();
+   
     this.helix.display();
-    this.scene.popMatrix();
 };

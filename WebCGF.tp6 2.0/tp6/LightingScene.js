@@ -24,6 +24,7 @@ LightingScene.prototype.init = function(application) {
 	this.Luz2 = true;
 	this.Luz3 = true;
 	this.Luz4 = true;
+	this.interruptor = true;
 	
 	this.enableTextures(true);
 	this.initCameras();
@@ -308,7 +309,12 @@ LightingScene.prototype.LightsUpdate = function(currTime)
 };
 
 LightingScene.prototype.update = function(currTime)
-{
-	this.clock.update(currTime);
+{	
 	this.LightsUpdate(currTime);
+	this.drone.update(currTime);
+	if(this.interruptor == true)
+	{
+	this.clock.update(currTime);
+	}
+	
 };

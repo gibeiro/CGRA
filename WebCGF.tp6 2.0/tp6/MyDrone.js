@@ -16,10 +16,10 @@ function MyDrone(scene, slices, stacks)
    this.droneAppearance.setShininess(100);
     
 
-    this.xpos = 0;
-    this.zpos = 0;
-    this.ypos = 4;
-    this.rotate = 0;
+    this.xpos = 8;
+    this.zpos = 8;
+    this.ypos = 5;
+    this.rotate = Math.PI+Math.PI/7;
 
     this.bodycylinder1 = new MyCylinder(scene, slices, stacks);
     this.bodycylinder1.initBuffers();
@@ -68,7 +68,7 @@ function MyDrone(scene, slices, stacks)
 
 
     //helixes
-    this.helix1 = new MyDroneHelix(scene, stacks, slices);
+    this.helix1 = new MyDroneHelix(scene, stacks, slices, 0);
     this.helix1.initBuffers();
 
 
@@ -258,12 +258,40 @@ MyDrone.prototype.draw = function(scene){
 
 MyDrone.prototype.update = function(currTime)
 {
-    
+    this.helix1.setAngle(currTime)
 };
 
 MyDrone.prototype.display = function()
 {
     this.scene.pushMatrix();
+  
+    this.scene.pushMatrix();
+    this.scene.translate(0, 0.2, 1.6);
+    this.scene.scale(0.05, 0.01, 0.8);
+    this.scene.rotate(this.helix1.angulo*Math.PI/180, 0, 1, 0);
+    this.helix1.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+    this.scene.translate(2, 0.2, -0.4);
+    this.scene.scale(0.05, 0.01, 0.8);
+    this.scene.rotate(-this.helix1.angulo*Math.PI/180, 1, 0, 0);
+    this.helix1.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+    this.scene.translate(-2, 0.2, -0.4);
+    this.scene.scale(0.05, 0.01, 0.8);
+    this.scene.rotate(-this.helix1.angulo*Math.PI/180, 0, 1, 0);
+    this.helix1.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+    this.scene.translate(0, 0.2, -2.4);
+    this.scene.scale(0.05, 0.01, 0.8);
+    this.scene.rotate(this.helix1.angulo*Math.PI/180, 0, 1, 0);
+    this.helix1.display();
+    this.scene.popMatrix();
   
     this.scene.pushMatrix();
     this.scene.scale(0.1, 0.1, 4);
@@ -368,12 +396,8 @@ MyDrone.prototype.display = function()
     this.dronehelicebase4.display();
     this.scene.popMatrix();
 
-    this.scene.pushMatrix();
-    this.scene.translate(0, 0.2, 1.6);
-    this.scene.scale(0.05, 0.01, 0.8);
-    //this.scene.rotate(this.helix1.angulo*(Math.PI/180), 0, 0, 1);
-    this.helix1.display();
-    this.scene.popMatrix();
+   
+
 
     this.scene.popMatrix();
     
@@ -382,5 +406,11 @@ MyDrone.prototype.display = function()
 
 MyDrone.prototype.update = function(currTime)
 {
-    this.helix1.setAngle((currTime/1000)*this.helix1.angulo*(Math.PI/180));
+      this.helix1.setAngle(currTime * 360);
 };
+
+
+MyDrone.prototype.setUpdatePeriod = function(value)
+ {
+   this.updatePeriod = value;  
+ };
