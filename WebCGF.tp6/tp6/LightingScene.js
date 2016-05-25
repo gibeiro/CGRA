@@ -24,6 +24,7 @@ LightingScene.prototype.init = function(application) {
 	this.Luz2 = true;
 	this.Luz3 = true;
 	this.Luz4 = true;
+	this.interruptor = true;
 	
 	this.enableTextures(true);
 	this.initCameras();
@@ -46,7 +47,7 @@ LightingScene.prototype.init = function(application) {
 	this.clock = new MyClock(this, 12, 1);
 	
 	//Drone
-	this.drone = new MyDrone(this);
+	this.drone = new MyDrone(this, 20, 12);
 
 	//Interface
 	this.interface = new MyInterface();
@@ -106,7 +107,7 @@ LightingScene.prototype.init = function(application) {
 	this.boardAppearance.setShininess(120);
 	this.boardAppearance.loadTexture("../resources/images/board.png");
 
-	this.setUpdatePeriod(100);
+	this.setUpdatePeriod(50);
 
 };
 
@@ -308,7 +309,12 @@ LightingScene.prototype.LightsUpdate = function(currTime)
 };
 
 LightingScene.prototype.update = function(currTime)
-{
-	this.clock.update(currTime);
+{	
 	this.LightsUpdate(currTime);
+	this.drone.update(currTime);
+	if(this.interruptor == true)
+	{
+	this.clock.update(currTime);
+	}
+	
 };

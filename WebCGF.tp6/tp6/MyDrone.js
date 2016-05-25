@@ -2,9 +2,12 @@
  var time = 0;
  var lastTime = 0;
 
-function MyDrone(scene)
+function MyDrone(scene, slices, stacks)
 {
     CGFobject.call(this, scene);
+
+    this.slices = slices;
+    this.stacks = stacks;
 
    this.droneAppearance = new CGFappearance(scene);
    this.droneAppearance.setDiffuse(1, 1, 1, 1);
@@ -13,12 +16,34 @@ function MyDrone(scene)
    this.droneAppearance.setShininess(100);
     
 
-    this.xpos = 0;
-    this.zpos = 0;
+    this.xpos = 8;
+    this.zpos = 8;
+    this.ypos = 5;
+    this.rotate = Math.PI+Math.PI/7;
+    this.rotateSpeedForward  = 1;
+    this.rotateSpeedBackward = 1;
+    this.rotateSpeeRight     = 1;
+    this.rotateSpeedLeft     = 1;
 
-    this.ypos = 4;
-    
-    this.rotate = 0;
+    this.bodycylinder = new MyCylinder(scene, slices, stacks);
+    this.bodycylinder.initBuffers();
+
+    this.body = new MyHalfSphere(scene, slices, stacks);
+    this.body.initBuffers();
+
+    this.wingcylinder = new MyCylinder(scene, slices, stacks);
+    this.wingcylinder.initBuffers();
+
+    this.dronelegs = new MyDroneLegs(scene, slices, stacks);
+    this.dronelegs.initBuffers();
+
+    this.dronelegscylinder = new MyCylinder(scene,stacks, slices);
+    this.dronelegscylinder.initBuffers();
+
+    //helixes
+    this.helix = new MyDroneHelix(scene, stacks, slices, 0);
+    this.helix.initBuffers();
+
 
    this.initBuffers();
 };
@@ -26,48 +51,56 @@ function MyDrone(scene)
 MyDrone.prototype = Object.create(CGFobject.prototype);
 MyDrone.prototype.constructor = MyDrone;
 
-MyDrone.prototype.initBuffers = function()
-{
-    this.vertices = [
-    .5,.3,-.4,
-    -.5,.3,-.4,
-    0,.3,1.6
-    ];
-    this.indices = [
-    0,1,2,
-    2,1,0
-    ];
-    this.normals = [
-    0,0,1,
-    0,0,1,
-    0,0,1
-    ];   
 
-    this.primitiveType = this.scene.gl.TRIANGLES;
-    this.initGLBuffers();
-};
-/*
-MyDrone.prototype.update = function(){
-    console.log("drone.display()");
-    this.materialDefault.apply();
-    this.scene.pushMatrix();   
-    this.scene.rotate(this.rotate, 0, 1, 0);
-	this.scene.translate(this.xpos, this.ypos, this.zpos);
-	this.scene.popMatrix();
-	this.moved = 0;
-};
-*/
 MyDrone.prototype.moveForward  = function(speed)
 {  
-    this.zpos += speed*Math.cos(this.rotate);
-    this.xpos += speed*Math.sin(this.rotate);
+    this.zpos += speed*Math.cos(this.rotate)/14;
+    this.xpos += speed*Math.sin(this.rotate)/14;
+     if(this.zpos < 2){
+        this.zpos = 2;
+    } else if(this.zpos > 13){
+        this.zpos = 13;
+    }
+    if(this.xpos < 2){
+        this.xpos = 2;
+    } else if(this.xpos > 13){
+        this.xpos = 13;
+    }
     console.log("x: %f | z: %f | alpha: %f",this.xpos,this.zpos,this.rotate);
 };
 
 MyDrone.prototype.moveBackward = function(speed)
 {   
-    this.zpos -= speed*Math.cos(this.rotate);
-    this.xpos -= speed*Math.sin(this.rotate);
+    this.zpos -= speed*Math.cos(this.rotate)/14;
+    this.xpos -= speed*Math.sin(this.rotate)/14;
+    if(this.zpos < 2){
+        this.zpos = 2;
+    } else if(this.zpos > 13){
+        this.zpos = 13;
+    }
+    if(this.xpos < 2){
+        this.xpos = 2;
+    } else if(this.xpos > 13){
+        this.xpos = 13;
+    }
+    console.log("x: %f | z: %f | alpha: %f",this.xpos,this.zpos,this.rotate);
+};
+
+MyDrone.prototype.moveUp = function(speed)
+{   
+    this.ypos += speed*Math.cos(this.rotate)/14;
+    if(this.ypos > 8){
+        this.ypos = 8;
+    }
+    console.log("x: %f | z: %f | alpha: %f",this.xpos,this.zpos,this.rotate);
+};
+
+MyDrone.prototype.moveDown = function(speed)
+{   
+    this.ypos -= speed*Math.cos(this.rotate)/14;
+    if(this.ypos < 1.2) {
+    this.ypos = 1.2;
+    }
     console.log("x: %f | z: %f | alpha: %f",this.xpos,this.zpos,this.rotate);
 };
 
@@ -164,5 +197,117 @@ MyDrone.prototype.draw = function(scene){
 
 MyDrone.prototype.update = function(currTime)
 {
-    
+    this.helix1.setAngle(currTime)
 };
+
+MyDrone.prototype.display = function()
+{ 
+    this.scene.pushMatrix();
+    this.scene.scale(0.1, 0.1, 4);
+    this.scene.translate(0, -1, -0.5);
+    this.bodycylinder.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+    this.scene.rotate(90*degToRad, 0, 1, 0);
+    this.scene.translate(0, -0.1, -2);
+    this.scene.scale(0.1, 0.1, 4);
+    this.bodycylinder.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+    this.scene.rotate(180*degToRad, 0, 0, 1);
+    this.scene.scale(0.7, 0.7, 0.7);
+    this.body.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+    this.scene.translate(2, 0.1, 0);
+    this.scene.rotate(90*degToRad, 1, 0, 0);
+    this.scene.scale(0.3, 0.3, 0.3);
+    this.wingcylinder.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+    this.scene.translate(-2, 0.1, 0);
+    this.scene.rotate(90*degToRad, 1, 0, 0);
+    this.scene.scale(0.3, 0.3, 0.3);
+    this.wingcylinder.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+    this.scene.translate(0, 0.1, -2);
+    this.scene.rotate(90*degToRad, 1, 0, 0);
+    this.scene.scale(0.3, 0.3, 0.3);
+    this.wingcylinder.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+    this.scene.translate(0, 0.1, 2);
+    this.scene.rotate(90*degToRad, 1, 0, 0);
+    this.scene.scale(0.3, 0.3, 0.3);
+    this.wingcylinder.display();
+    this.scene.popMatrix();
+    
+    this.scene.pushMatrix();
+    this.scene.translate(0, -1.2, -0.6);
+    this.scene.rotate(90*degToRad, 0, 0, 1);
+    this.scene.scale(1, 1, 0.2);
+    this.dronelegs.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+    this.scene.translate(0, -1.2, 0.4);
+    this.scene.rotate(90*degToRad, 0, 0, 1);
+    this.scene.scale(1, 1, 0.2);
+    this.dronelegs.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+    this.scene.translate(-1, -1.2, -1);
+    this.scene.scale(0.05, 0.05, 2);
+    this.dronelegscylinder.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+    this.scene.translate(1, -1.2, -1);
+    this.scene.scale(0.05, 0.05, 2);
+    this.dronelegscylinder.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+    this.scene.translate(0, 0.1, 2);
+    this.scene.rotate(this.helix.angulo*degToRad, 0, 1, 0);
+    this.helix.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+    this.scene.translate(2, 0.1, 0);
+    this.scene.rotate(-this.helix.angulo*degToRad, 0, 1, 0);
+    this.helix.display();
+    this.scene.popMatrix();   
+
+    this.scene.pushMatrix();
+    this.scene.translate(-2, 0.1, 0);
+    this.scene.rotate(-this.helix.angulo*degToRad, 0, 1, 0);
+    this.helix.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+    this.scene.translate(0, 0.1, -2);
+    this.scene.rotate(this.helix.angulo*degToRad, 0, 1, 0);
+    this.helix.display();
+    this.scene.popMatrix();
+};
+
+
+MyDrone.prototype.update = function(currTime)
+{
+      this.helix.setAngle(currTime * 360/1000);
+};
+
+
+MyDrone.prototype.setUpdatePeriod = function(value)
+ {
+   this.updatePeriod = value;  
+ };
