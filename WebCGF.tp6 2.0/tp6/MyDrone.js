@@ -20,56 +20,29 @@ function MyDrone(scene, slices, stacks)
     this.zpos = 8;
     this.ypos = 5;
     this.rotate = Math.PI+Math.PI/7;
+    this.rotateSpeedForward  = 1;
+    this.rotateSpeedBackward = 1;
+    this.rotateSpeeRight     = 1;
+    this.rotateSpeedLeft     = 1;
 
-    this.bodycylinder1 = new MyCylinder(scene, slices, stacks);
-    this.bodycylinder1.initBuffers();
-
-    this.bodycylinder2 = new MyCylinder(scene, slices, stacks);
-    this.bodycylinder2.initBuffers();
+    this.bodycylinder = new MyCylinder(scene, slices, stacks);
+    this.bodycylinder.initBuffers();
 
     this.body = new MyHalfSphere(scene, slices, stacks);
     this.body.initBuffers();
 
-    this.wingcylinder1 = new MyCylinder(scene, slices, stacks);
-    this.wingcylinder1.initBuffers();
+    this.wingcylinder = new MyCylinder(scene, slices, stacks);
+    this.wingcylinder.initBuffers();
 
-    this.wingcylinder2 = new MyCylinder(scene, slices, stacks);
-    this.wingcylinder2.initBuffers();
+    this.dronelegs = new MyDroneLegs(scene, slices, stacks);
+    this.dronelegs.initBuffers();
 
-    this.wingcylinder3 = new MyCylinder(scene, slices, stacks);
-    this.wingcylinder3.initBuffers();
-
-    this.wingcylinder4 = new MyCylinder(scene, slices, stacks);
-    this.wingcylinder4.initBuffers();
-
-    this.dronelegs1 = new MyDroneLegs(scene, slices, stacks);
-    this.dronelegs1.initBuffers();
-
-    this.dronelegs2 = new MyDroneLegs(scene, slices, stacks);
-    this.dronelegs2.initBuffers();
-
-    this.dronelegscylinder1 = new MyCylinder(scene,stacks, slices);
-    this.dronelegscylinder1.initBuffers();
-
-    this.dronelegscylinder2 = new MyCylinder(scene,stacks, slices);
-    this.dronelegscylinder2.initBuffers();
-
-    this.dronehelicebase1 = new MyHalfSphere(scene, stacks, slices);
-    this.dronehelicebase1.initBuffers();
-
-    this.dronehelicebase2 = new MyHalfSphere(scene, stacks, slices);
-    this.dronehelicebase2.initBuffers();
-
-    this.dronehelicebase3 = new MyHalfSphere(scene, stacks, slices);
-    this.dronehelicebase3.initBuffers();
-
-    this.dronehelicebase4 = new MyHalfSphere(scene, stacks, slices);
-    this.dronehelicebase4.initBuffers();
-
+    this.dronelegscylinder = new MyCylinder(scene,stacks, slices);
+    this.dronelegscylinder.initBuffers();
 
     //helixes
-    this.helix1 = new MyDroneHelix(scene, stacks, slices, 0);
-    this.helix1.initBuffers();
+    this.helix = new MyDroneHelix(scene, stacks, slices, 0);
+    this.helix.initBuffers();
 
 
    this.initBuffers();
@@ -78,41 +51,7 @@ function MyDrone(scene, slices, stacks)
 MyDrone.prototype = Object.create(CGFobject.prototype);
 MyDrone.prototype.constructor = MyDrone;
 
-/*
-MyDrone.prototype.initBuffers = function()
-{
-    this.vertices = [
-    .5,.3,-.4,
-    -.5,.3,-.4,
-    0,.3,1.6
-    ];
-    this.indices = [
-    0,1,2,
-    2,1,0
-    ];
-    this.normals = [
-    0,0,1,
-    0,0,1,
-    0,0,1
-    ];   
 
-    this.primitiveType = this.scene.gl.TRIANGLES;
-    this.initGLBuffers();
-};
-*/
-
-
-/*
-MyDrone.prototype.update = function(){
-    console.log("drone.display()");
-    this.materialDefault.apply();
-    this.scene.pushMatrix();   
-    this.scene.rotate(this.rotate, 0, 1, 0);
-	this.scene.translate(this.xpos, this.ypos, this.zpos);
-	this.scene.popMatrix();
-	this.moved = 0;
-};
-*/
 MyDrone.prototype.moveForward  = function(speed)
 {  
     this.zpos += speed*Math.cos(this.rotate)/14;
@@ -262,151 +201,109 @@ MyDrone.prototype.update = function(currTime)
 };
 
 MyDrone.prototype.display = function()
-{
-    this.scene.pushMatrix();
-  
-    this.scene.pushMatrix();
-    this.scene.translate(0, 0.2, 1.6);
-    this.scene.scale(0.05, 0.01, 0.8);
-    this.scene.rotate(this.helix1.angulo*Math.PI/180, 0, 1, 0);
-    this.helix1.display();
-    this.scene.popMatrix();
-
-    this.scene.pushMatrix();
-    this.scene.translate(2, 0.2, -0.4);
-    this.scene.scale(0.05, 0.01, 0.8);
-    this.scene.rotate(-this.helix1.angulo*Math.PI/180, 1, 0, 0);
-    this.helix1.display();
-    this.scene.popMatrix();
-
-    this.scene.pushMatrix();
-    this.scene.translate(-2, 0.2, -0.4);
-    this.scene.scale(0.05, 0.01, 0.8);
-    this.scene.rotate(-this.helix1.angulo*Math.PI/180, 0, 1, 0);
-    this.helix1.display();
-    this.scene.popMatrix();
-
-    this.scene.pushMatrix();
-    this.scene.translate(0, 0.2, -2.4);
-    this.scene.scale(0.05, 0.01, 0.8);
-    this.scene.rotate(this.helix1.angulo*Math.PI/180, 0, 1, 0);
-    this.helix1.display();
-    this.scene.popMatrix();
-  
+{ 
     this.scene.pushMatrix();
     this.scene.scale(0.1, 0.1, 4);
     this.scene.translate(0, -1, -0.5);
-    this.bodycylinder1.display();
+    this.bodycylinder.display();
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
-    this.scene.rotate(90*(Math.PI/180), 0, 1, 0);
+    this.scene.rotate(90*degToRad, 0, 1, 0);
     this.scene.translate(0, -0.1, -2);
     this.scene.scale(0.1, 0.1, 4);
-    this.bodycylinder2.display();
+    this.bodycylinder.display();
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
-    this.scene.rotate(Math.PI, 0, 0, 1);
+    this.scene.rotate(180*degToRad, 0, 0, 1);
     this.scene.scale(0.7, 0.7, 0.7);
     this.body.display();
     this.scene.popMatrix();
 
-
     this.scene.pushMatrix();
     this.scene.translate(2, 0.1, 0);
-    this.scene.rotate(90*Math.PI/180, 1, 0, 0);
+    this.scene.rotate(90*degToRad, 1, 0, 0);
     this.scene.scale(0.3, 0.3, 0.3);
-    this.wingcylinder1.display();
+    this.wingcylinder.display();
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
     this.scene.translate(-2, 0.1, 0);
-    this.scene.rotate(90*Math.PI/180, 1, 0, 0);
+    this.scene.rotate(90*degToRad, 1, 0, 0);
     this.scene.scale(0.3, 0.3, 0.3);
-    this.wingcylinder2.display();
+    this.wingcylinder.display();
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
     this.scene.translate(0, 0.1, -2);
-    this.scene.rotate(90*Math.PI/180, 1, 0, 0);
+    this.scene.rotate(90*degToRad, 1, 0, 0);
     this.scene.scale(0.3, 0.3, 0.3);
-    this.wingcylinder3.display();
+    this.wingcylinder.display();
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
     this.scene.translate(0, 0.1, 2);
-    this.scene.rotate(90*Math.PI/180, 1, 0, 0);
+    this.scene.rotate(90*degToRad, 1, 0, 0);
     this.scene.scale(0.3, 0.3, 0.3);
-    this.wingcylinder4.display();
+    this.wingcylinder.display();
     this.scene.popMatrix();
-
     
     this.scene.pushMatrix();
     this.scene.translate(0, -1.2, -0.6);
-    this.scene.rotate(90*Math.PI/180, 0, 0, 1);
+    this.scene.rotate(90*degToRad, 0, 0, 1);
     this.scene.scale(1, 1, 0.2);
-    this.dronelegs1.display();
+    this.dronelegs.display();
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
     this.scene.translate(0, -1.2, 0.4);
-    this.scene.rotate(90*Math.PI/180, 0, 0, 1);
+    this.scene.rotate(90*degToRad, 0, 0, 1);
     this.scene.scale(1, 1, 0.2);
-    this.dronelegs2.display();
+    this.dronelegs.display();
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
     this.scene.translate(-1, -1.2, -1);
     this.scene.scale(0.05, 0.05, 2);
-    this.dronelegscylinder1.display();
+    this.dronelegscylinder.display();
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
     this.scene.translate(1, -1.2, -1);
     this.scene.scale(0.05, 0.05, 2);
-    this.dronelegscylinder2.display();
-    this.scene.popMatrix();
-
-    this.scene.pushMatrix();
-    this.scene.translate(2, 0.1, 0);
-    this.scene.rotate(Math.PI, 1, 0, 0);
-    this.scene.scale(0.1, 0.2, 0.1);
-    this.dronehelicebase1.display();
-    this.scene.popMatrix();
-
-    this.scene.pushMatrix();
-    this.scene.translate(-2, 0.1, 0);
-    this.scene.rotate(Math.PI, 1, 0, 0);
-    this.scene.scale(0.1, 0.2, 0.1);
-    this.dronehelicebase2.display();
+    this.dronelegscylinder.display();
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
     this.scene.translate(0, 0.1, 2);
-    this.scene.rotate(Math.PI, 1, 0, 0);
-    this.scene.scale(0.1, 0.2, 0.1);
-    this.dronehelicebase3.display();
+    this.scene.rotate(this.helix.angulo*degToRad, 0, 1, 0);
+    this.helix.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+    this.scene.translate(2, 0.1, 0);
+    this.scene.rotate(-this.helix.angulo*degToRad, 0, 1, 0);
+    this.helix.display();
+    this.scene.popMatrix();   
+
+    this.scene.pushMatrix();
+    this.scene.translate(-2, 0.1, 0);
+    this.scene.rotate(-this.helix.angulo*degToRad, 0, 1, 0);
+    this.helix.display();
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
     this.scene.translate(0, 0.1, -2);
-    this.scene.rotate(Math.PI, 1, 0, 0);
-    this.scene.scale(0.1, 0.2, 0.1);
-    this.dronehelicebase4.display();
+    this.scene.rotate(this.helix.angulo*degToRad, 0, 1, 0);
+    this.helix.display();
     this.scene.popMatrix();
-
-   
-
-
-    this.scene.popMatrix();
-    
 };
 
 
 MyDrone.prototype.update = function(currTime)
 {
-      this.helix1.setAngle(currTime * 360);
+      this.helix.setAngle(currTime * 360/1000);
 };
 
 

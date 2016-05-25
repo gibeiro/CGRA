@@ -107,7 +107,7 @@ LightingScene.prototype.init = function(application) {
 	this.boardAppearance.setShininess(120);
 	this.boardAppearance.loadTexture("../resources/images/board.png");
 
-	this.setUpdatePeriod(100);
+	this.setUpdatePeriod(50);
 
 };
 
