@@ -112,19 +112,97 @@ MyInterface.prototype.processKeyboard = function(event) {
 			break;
 
 		//I
-		case (105):
+		case (106):
 			this.scene.drone.moveUp(this.scene.speed);
 			break;
-		case (73):
+		case (74):
 			this.scene.drone.moveUp(this.scene.speed);
 			break;
 
 		//J
-		case (106):
+		case (105):
 			this.scene.drone.moveDown(this.scene.speed);
 			break;
-		case (74):
+		case (73):
 			this.scene.drone.moveDown(this.scene.speed);
+			break;
+
+		//Hook movement
+		//P
+		case(108):
+			this.scene.drone.moveHookUp(this.scene.speed);
+			break;
+		case(76):
+			this.scene.drone.moveHookUp(this.scene.speed);
+			break;
+		
+		//L
+		case(112):
+			this.scene.drone.moveHookDown(this.scene.speed);
+			break;
+		case(80):
+			this.scene.moveHookDown(this.scene.speed);
 			break;
 	};
 };
+
+
+ MyInterface.prototype.processKeyUp = function(event){
+
+	CGFinterface.prototype.processKeyUp.call(this, event);
+
+	switch (event.keyCode)
+	{
+
+	//A
+		case (65):
+			this.scene.drone.releaseRotate(this.scene.speed);
+			break;
+		case (97):
+			this.scene.drone.releaseRotate(this.scene.speed);
+			break;
+
+		//D
+		case (100):
+			this.scene.drone.releaseRotate();
+			break;
+		case (68):
+			this.scene.drone.releaseRotate();
+			break; 
+
+		//W
+		case (119):
+			this.scene.drone.releaseForwardBackward();
+			break;
+		case (87):
+			this.scene.drone.releaseForwardBackward();
+			break;
+
+		//S
+		case (115):
+			this.scene.drone.releaseForwardBackward();
+			break;
+		case (83):
+			this.scene.drone.releaseForwardBackward();
+			break;
+
+		//I
+		case (105):
+			this.scene.drone.releaseForwardBackward();
+			break;
+		case (73):
+			this.scene.drone.releaseForwardBackward();
+			break;
+
+		//J
+		case (106):
+			this.scene.drone.releaseForwardBackward();
+			break;
+		case (74):
+			this.scene.drone.releaseForwardBackward();
+			break; 
+	};
+
+	console.log('keyUp');
+}; 
+

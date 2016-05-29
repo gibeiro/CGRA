@@ -49,6 +49,12 @@ LightingScene.prototype.init = function(application) {
 	//Drone
 	this.drone = new MyDrone(this, 20, 12);
 
+	//Box
+	this.box = new MyBox(this);
+	
+	//Platform
+	this.platform = new MyPlatform(this);
+
 	//Interface
 	this.interface = new MyInterface();
 
@@ -84,7 +90,6 @@ LightingScene.prototype.init = function(application) {
 	this.floorAppearance.setShininess(4);
 	this.floorAppearance.loadTexture("../resources/images/floor.png");
 	
-
 	//Window Texture
 	this.windowAppearance = new CGFappearance(this);
 	this.windowAppearance.setDiffuse(0.2, 0.2, 0.2, 1);
@@ -106,6 +111,22 @@ LightingScene.prototype.init = function(application) {
 	this.boardAppearance.setSpecular(0.5, 0.5, 0.5, 1);
 	this.boardAppearance.setShininess(120);
 	this.boardAppearance.loadTexture("../resources/images/board.png");
+
+	//Box Textures
+	this.boxAppearance = new CGFappearance(this);
+    this.boxAppearance.setAmbient(0.2, 0.2, 0.2, 1);
+    this.boxAppearance.setDiffuse(0.7, 0.7, 0.7, 1);
+    this.boxAppearance.setSpecular(0.7, 0.7, 0.7, 1);
+    this.boxAppearance.setShininess(5);
+    this.boxAppearance.loadTexture("../resources/images/ferrolho.png");
+	
+	//Platform Textures
+	this.platformAppearance = new CGFappearance(this);
+    this.platformAppearance.setAmbient(0.2, 0.2, 0.2, 1);
+    this.platformAppearance.setDiffuse(0.7, 0.7, 0.7, 1);
+    this.platformAppearance.setSpecular(0.7, 0.7, 0.7, 1);
+    this.platformAppearance.setShininess(5);
+    this.platformAppearance.loadTexture("../resources/images/monkreli.png");
 
 	this.setUpdatePeriod(50);
 
@@ -241,10 +262,10 @@ LightingScene.prototype.display = function() {
 	// Floor
 	this.floorAppearance.apply();
 	this.pushMatrix();
-		this.translate(7.5, 0, 7.5);
-		this.rotate(-90 * degToRad, 1, 0, 0);
-		this.scale(15, 15, 0.2);
-		this.floor.display();
+	this.translate(7.5, 0, 7.5);
+	this.rotate(-90 * degToRad, 1, 0, 0);
+	this.scale(15, 15, 0.2);
+	this.floor.display();
 	this.popMatrix();
 
 	//Clock
@@ -257,7 +278,41 @@ LightingScene.prototype.display = function() {
 	this.popMatrix();
 
 	//Drone	
+	//this.pushMatrix();
+	//this.rotate(10*degToRad, 0, 0, 1);
 	this.drone.draw(this);
+	//this.popMatrix();
+
+	//Box
+	this.boxAppearance.apply();
+	this.pushMatrix();
+	this.translate(this.box.x, this.box.y, this.box.z);
+	//this.translate(4, 0.5, 4);
+	this.box.update(this.box.x, this.box.y, this.box.z);
+	if(this.box.grabbed == 0){
+	this.box.x = 4;
+	this.box.y = 0.5;
+	this.box.z = 4;
+	//this.box.update(4, 0.5, 4);
+	//this.translate(this.box.x, this.box.y, this.box.z);
+	}
+	this.box.display();
+	this.popMatrix();
+
+	//Platform
+
+	this.platformAppearance.apply();
+	this.pushMatrix();
+	this.translate(this.platform.x, this.platform.y, this.platform.z);
+	this.platform.update(this.platform.x, this.platform.y, this.platform.z);
+	this.platform.x = 12;
+	this.platform.y = 4;
+	this.platform.z = 8;
+	this.scale(2.5, 0.2, 2.5);
+	this.platform.display();
+	this.popMatrix();
+
+
 	// ---- END Geometric transformation section	
 };
 
@@ -308,6 +363,9 @@ LightingScene.prototype.LightsUpdate = function(currTime)
 	}
 };
 
+
+
+
 LightingScene.prototype.update = function(currTime)
 {	
 	this.LightsUpdate(currTime);
@@ -316,5 +374,42 @@ LightingScene.prototype.update = function(currTime)
 	{
 	this.clock.update(currTime);
 	}
+
+	//this.box.update(this.drone.xpos, this.drone.ypos-this.drone.ropeLength, this.drone.zpos);
+	//this.box.update(4, 0.5, 4);
+	//this.box.update(this.box.x + 0.1, this.box.y + 0.1, this.box.z + 0.1);
+	//console.log("box.x: %f | box.y: %f | box.z: %f",this.box.x,this.box.y,this.box.z);
+
+
+	this.box.checkUpdate(this.drone.xpos, this.drone.ypos-this.drone.ropeLength, this.drone.zpos);
+	console.log("boxgrabbed: %f | boxreleased: %f ", this.box.grabbed, this.box.released);
+	console.log("platformrelease: %f ", this.platform.release);
+	console.log("box.x: %f | box.y: %f | box.z: %f ", this.box.x, this.box.y, this.box.z);
+	console.log("xpos, xneg: %f, %f | ypos, yneg: %f, %f | zpos, zneg: %f, %f",
+	this.box.xpositive, this.box.xnegative, this.box.ypositive, this.box.ynegative, this.box.zpositive, this.box.znegative);
+	console.log("drone.x: %f | drone.delta: %f | drone.z: %f ", this.drone.xpos, this.drone.ypos-this.drone.ropeLength ,this.drone.zpos);
+
+	this.platform.checkRelease(this.box.xpositive, this.box.xnegative, this.box.ypositive, this.box.ynegative, this.box.zpositive, this.box.znegative);
+	/*if(this.platform.release == 1)
+	{
+		//this.box.grabbed = 2;
+		this.box.released = 1;
+	}*/
+
+	if(this.box.grabbed == 1)
+	{
+		this.box.update(this.drone.xpos, this.drone.ypos-this.drone.ropeLength, this.drone.zpos);
+	}
+	//else if(this.box.grabbed == 2)
+/*	else if(this.box.released == -1)
+	{
+		this.box.grabbed = 0;
+		this.box.update(this.platform.x, this.platform.y+0.5, this.platform.z);
+	}
+*/
+	//this.box.grabbed = 1;
+	//this.box.grabbed = 2;
+	//this.box.update(this.platform.x, this.platform.y+0.5, this.platform.z);
+	
 	
 };
