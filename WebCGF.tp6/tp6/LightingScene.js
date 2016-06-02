@@ -48,8 +48,10 @@ LightingScene.prototype.init = function(application) {
 	
 	//Drone
 	this.drone = new MyDrone(this, 20, 12);
+	this.currDroneAppearance = 0;
 
 	//Box
+	this.droneAppearanceList = [ 'water', 'metal', 'money'];
 	this.box = new MyBox(this);
 	
 	//Platform
@@ -118,7 +120,7 @@ LightingScene.prototype.init = function(application) {
     this.boxAppearance.setDiffuse(0.7, 0.7, 0.7, 1);
     this.boxAppearance.setSpecular(0.7, 0.7, 0.7, 1);
     this.boxAppearance.setShininess(5);
-    this.boxAppearance.loadTexture("../resources/images/ferrolho.png");
+    this.boxAppearance.loadTexture("../resources/images/money.png");
 	
 	//Platform Textures
 	this.platformAppearance = new CGFappearance(this);
@@ -126,7 +128,7 @@ LightingScene.prototype.init = function(application) {
     this.platformAppearance.setDiffuse(0.7, 0.7, 0.7, 1);
     this.platformAppearance.setSpecular(0.7, 0.7, 0.7, 1);
     this.platformAppearance.setShininess(5);
-    this.platformAppearance.loadTexture("../resources/images/monkreli.png");
+    this.platformAppearance.loadTexture("../resources/images/steel.png");
 
 	this.setUpdatePeriod(50);
 
@@ -361,6 +363,19 @@ LightingScene.prototype.LightsUpdate = function(currTime)
 		this.lights[3].disable();
 		this.lights[3].update();
 	}
+
+	if (this.currDroneAppearance == 'water')
+	{
+		this.drone.appearanceIndex = 0;
+	}
+	if (this.currDroneAppearance == 'metal')
+	{
+		this.drone.appearanceIndex = 1;
+	}
+	if (this.currDroneAppearance == 'money')
+	{
+		this.drone.appearanceIndex = 2;
+	}
 };
 
 
@@ -384,29 +399,30 @@ LightingScene.prototype.update = function(currTime)
 	this.box.checkUpdate(this.drone.xpos, this.drone.ypos-this.drone.ropeLength, this.drone.zpos);
 	console.log("boxgrabbed: %f | boxreleased: %f ", this.box.grabbed, this.box.released);
 	console.log("platformrelease: %f ", this.platform.release);
-	console.log("box.x: %f | box.y: %f | box.z: %f ", this.box.x, this.box.y, this.box.z);
-	console.log("xpos, xneg: %f, %f | ypos, yneg: %f, %f | zpos, zneg: %f, %f",
+	//console.log("box.x: %f | box.y: %f | box.z: %f ", this.box.x, this.box.y, this.box.z);
+	console.log("BOX: xpos, xneg: %f, %f | ypos, yneg: %f, %f | zpos, zneg: %f, %f",
 	this.box.xpositive, this.box.xnegative, this.box.ypositive, this.box.ynegative, this.box.zpositive, this.box.znegative);
-	console.log("drone.x: %f | drone.delta: %f | drone.z: %f ", this.drone.xpos, this.drone.ypos-this.drone.ropeLength ,this.drone.zpos);
+	console.log("PLATFORM: xpos, xneg: %f, %f | ypos, yneg: %f, %f | zpos, zneg: %f, %f",
+	this.platform.xpositive, this.platform.xnegative, this.platform.ypositive, this.platform.ynegative, this.platform.zpositive, this.platform.znegative);
+	//console.log("drone.x: %f | drone.delta: %f | drone.z: %f ", this.drone.xpos, this.drone.ypos-this.drone.ropeLength ,this.drone.zpos);
 
 	this.platform.checkRelease(this.box.xpositive, this.box.xnegative, this.box.ypositive, this.box.ynegative, this.box.zpositive, this.box.znegative);
-	/*if(this.platform.release == 1)
+	if(this.platform.release == 1)
 	{
 		//this.box.grabbed = 2;
 		this.box.released = 1;
-	}*/
+	} else { this.box.released = 0; }
 
-	if(this.box.grabbed == 1)
+
+if(this.box.released == 1)
+{
+	this.box.update(this.platform.x, this.platform.y+0.5, this.platform.z);
+}
+	else if(this.box.grabbed == 1)
 	{
 		this.box.update(this.drone.xpos, this.drone.ypos-this.drone.ropeLength, this.drone.zpos);
 	}
-	//else if(this.box.grabbed == 2)
-/*	else if(this.box.released == -1)
-	{
-		this.box.grabbed = 0;
-		this.box.update(this.platform.x, this.platform.y+0.5, this.platform.z);
-	}
-*/
+	
 	//this.box.grabbed = 1;
 	//this.box.grabbed = 2;
 	//this.box.update(this.platform.x, this.platform.y+0.5, this.platform.z);

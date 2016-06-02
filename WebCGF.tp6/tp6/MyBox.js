@@ -75,9 +75,7 @@ MyBox.prototype.checkUpdate = function(x, y, z) {
   && y <= this.ypositive && y >= this.ynegative
   && z <= this.zpositive && z >= this.znegative) {
     this.grabbed = 1;
-    //this.x = x;
-    //this.y = y;
-    //this.z = z;
+
   }
   //if(this.grabbed == true && this.y <= 2){
   //  this.released = true;

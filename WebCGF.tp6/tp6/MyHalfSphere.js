@@ -4,6 +4,13 @@
 	
 	this.slices = slices;
 	this.stacks = stacks;
+	this.minS = 0.0;
+	this.maxS = 1.0;
+	this.minT = 0.0;
+	this.maxT = 1.0;
+
+	this.texelLengthS = (this.maxS - this.minS) / this.slices;
+	this.texelLengthT = (this.maxT - this.minT) / this.stacks;
 
  	this.initBuffers();
  };
@@ -16,7 +23,9 @@
 	this.vertices = [];
 	this.indices = [];
 	this.normals = [];
+	this.texCoords = [];
 
+	this.sCoord = this.maxS;
 
 	//base
    for(i = 0; i < this.slices; i++){
@@ -33,11 +42,16 @@
 
 	//corpo
 for(i = 0; i < this.stacks; i++){
+
+	this.tCoord = this.minT;
+
 	for(j = 0; j < this.slices; j++){
 		this.vertices.push(Math.sin(j*Math.PI*2/this.slices)*Math.cos(i*Math.PI/2/this.stacks),-Math.sin(i*Math.PI/2/this.stacks),Math.cos(j*Math.PI*2/this.slices)*Math.cos(i*Math.PI/2/this.stacks));
 		this.normals.push(Math.sin(j*Math.PI*2/this.slices)*Math.cos(i*Math.PI/2/this.stacks),-Math.sin(i*Math.PI/2/this.stacks),Math.cos(j*Math.PI*2/this.slices)*Math.cos(i*Math.PI/2/this.stacks));
-
+		this.texCoords.push(this.sCoord, this.tCoord);
+		this.tCoord += this.texelLengthT;
 	}
+	this.sCoord -= this.texelLengthS;
 }
 
 this.vertices.push(0,-1,0);

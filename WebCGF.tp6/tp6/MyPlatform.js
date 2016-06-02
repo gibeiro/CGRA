@@ -67,15 +67,15 @@
  	this.scene.popMatrix();
  };
 
+
 MyPlatform.prototype.checkRelease = function(x1, x2, y1, y2, z1, z2) {
   if(x1 <= this.xpositive && x2 >= this.xnegative
-  && y1 <= this.ypositive && y2 >= this.ynegative
-  //&& z1 <= this.zpositive && z2 >= this.znegative) {
-  && z2 <= this.zpositive){
+  && y2 <= this.ypositive && y2 >= this.ynegative
+  && z1 <= this.zpositive && z2 >= this.znegative)
+  {
     this.release = 1;
-  }
+  } else { this.release = 0; }
 };
-
 
 MyPlatform.prototype.update = function(x, y, z) {
   this.x = x;

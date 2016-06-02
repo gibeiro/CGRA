@@ -56,6 +56,8 @@ MyInterface.prototype.init = function(application) {
 	lights.add(this.scene, 'Luz3');
 	lights.add(this.scene, 'Luz4');
 
+	this.gui.add(this.scene, 'currDroneAppearance', this.scene.droneAppearanceList);
+
 	var clock = this.gui.addFolder("Relogio");
 	clock.open();
 	clock.add(this.scene, 'interruptor');

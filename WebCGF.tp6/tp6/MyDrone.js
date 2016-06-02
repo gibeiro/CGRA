@@ -29,26 +29,73 @@ function MyDrone(scene, slices, stacks)
     this.tiltFront = 0;
     this.ropeLength = -0.5;
 
+    this.appearanceIndex = 0;
+
     this.bodycylinderAppearance = new CGFappearance(this.scene);
     this.bodycylinderAppearance.setAmbient(0.2, 0.2, 0.2, 1);
     this.bodycylinderAppearance.setDiffuse(0.7, 0.7, 0.7, 1);
     this.bodycylinderAppearance.setSpecular(0.7, 0.7, 0.7, 1);
     this.bodycylinderAppearance.setShininess(5);
-    //this.bodycylinderAppearance.loadTexture("../resources/images/ferrolho.png");
+    this.bodycylinderAppearance.loadTexture("../resources/images/water.png");
 
+    this.bodycylinderAppearance1 = new CGFappearance(this.scene);
+    this.bodycylinderAppearance.setAmbient(0.2, 0.2, 0.2, 1);
+    this.bodycylinderAppearance.setDiffuse(0.7, 0.7, 0.7, 1);
+    this.bodycylinderAppearance.setSpecular(0.7, 0.7, 0.7, 1);
+    this.bodycylinderAppearance.setShininess(5);
+    this.bodycylinderAppearance.loadTexture("../resources/images/steel.png");
+
+    this.bodycylinderAppearance2 = new CGFappearance(this.scene);
+    this.bodycylinderAppearance.setAmbient(0.2, 0.2, 0.2, 1);
+    this.bodycylinderAppearance.setDiffuse(0.7, 0.7, 0.7, 1);
+    this.bodycylinderAppearance.setSpecular(0.7, 0.7, 0.7, 1);
+    this.bodycylinderAppearance.setShininess(5);
+    this.bodycylinderAppearance.loadTexture("../resources/images/money.png");
+
+  
     this.bodyAppearance = new CGFappearance(this.scene);
     this.bodyAppearance.setAmbient(0.2, 0.2, 0.2, 1);
     this.bodyAppearance.setDiffuse(0.7, 0.7, 0.7, 1);
     this.bodyAppearance.setSpecular(0.7, 0.7, 0.7, 1);
     this.bodyAppearance.setShininess(5);
-    //this.bodyAppearance.loadTexture("../resources/images/ferrolho.png");
+    //this.bodyAppearance.loadTexture("../resources/images/face.png");
+
+    this.bodyAppearance1 = new CGFappearance(this.scene);
+    this.bodyAppearance1.setAmbient(0.2, 0.2, 0.2, 1);
+    this.bodyAppearance1.setDiffuse(0.7, 0.7, 0.7, 1);
+    this.bodyAppearance1.setSpecular(0.7, 0.7, 0.7, 1);
+    this.bodyAppearance1.setShininess(5);
+    //this.bodyAppearance.loadTexture("../resources/images/face.png");
+
+    this.bodyAppearance2 = new CGFappearance(this.scene);
+    this.bodyAppearance2.setAmbient(0.2, 0.2, 0.2, 1);
+    this.bodyAppearance2.setDiffuse(0.7, 0.7, 0.7, 1);
+    this.bodyAppearance2.setSpecular(0.7, 0.7, 0.7, 1);
+    this.bodyAppearance2.setShininess(5);
+    //this.bodyAppearance.loadTexture("../resources/images/face.png");
 
     this.wingcylinderAppearance = new CGFappearance(this.scene);
     this.wingcylinderAppearance.setAmbient(0.2, 0.2, 0.2, 1);
     this.wingcylinderAppearance.setDiffuse(0.7, 0.7, 0.7, 1);
     this.wingcylinderAppearance.setSpecular(0.7, 0.7, 0.7, 1);
     this.wingcylinderAppearance.setShininess(5);
-    //this.wingcylinderAppearance.loadTexture("../resources/images/ferrolho.png");
+    this.wingcylinderAppearance.loadTexture("../resources/images/water.png");
+
+    this.wingcylinderAppearance1 = new CGFappearance(this.scene);
+    this.wingcylinderAppearance1.setAmbient(0.2, 0.2, 0.2, 1);
+    this.wingcylinderAppearance1.setDiffuse(0.7, 0.7, 0.7, 1);
+    this.wingcylinderAppearance1.setSpecular(0.7, 0.7, 0.7, 1);
+    this.wingcylinderAppearance1.setShininess(5);
+    this.wingcylinderAppearance1.loadTexture("../resources/images/steel.png");
+
+    this.wingcylinderAppearance2 = new CGFappearance(this.scene);
+    this.wingcylinderAppearance2.setAmbient(0.2, 0.2, 0.2, 1);
+    this.wingcylinderAppearance2.setDiffuse(0.7, 0.7, 0.7, 1);
+    this.wingcylinderAppearance2.setSpecular(0.7, 0.7, 0.7, 1);
+    this.wingcylinderAppearance2.setShininess(5);
+    this.wingcylinderAppearance2.loadTexture("../resources/images/money.png");
+
+
 
     this.dronelegsAppearance = new CGFappearance(this.scene);
     this.dronelegsAppearance.setAmbient(0.2, 0.2, 0.2, 1);
@@ -62,7 +109,7 @@ function MyDrone(scene, slices, stacks)
     this.dronelegscylinderAppearance.setDiffuse(0.7, 0.7, 0.7, 1);
     this.dronelegscylinderAppearance.setSpecular(0.7, 0.7, 0.7, 1);
     this.dronelegscylinderAppearance.setShininess(5);
-  //this.dronelegscylinderAppearance.loadTexture("../resources/images/ferrolho.png");
+    this.dronelegscylinderAppearance.loadTexture("../resources/images/water.png");
 
     
     this.hookAppearance = new CGFappearance(this.scene);
@@ -100,6 +147,14 @@ function MyDrone(scene, slices, stacks)
     //helixes
     this.helix = new MyDroneHelix(scene, stacks, slices, 0);
     this.helix.initBuffers();
+    
+    this.bodyAppearanceArray = [];
+    this.bodycylinderAppearanceArray = [];
+    this.wingcylinderAppearanceArray = [];
+    this.bodyAppearanceArray.push(this.bodyAppearance, this.bodyAppearance1, this.bodyAppearance2);
+    this.bodycylinderAppearanceArray.push(this.bodycylinderAppearance, this.bodycylinderAppearance1, this.bodycylinderAppearance2);
+    this.wingcylinderAppearanceArray.push(this.wingcylinderAppearance, this.wingcylinderAppearance1, this.wingcylinderAppearance2);
+
 
 
    this.initBuffers();
@@ -326,14 +381,14 @@ MyDrone.prototype.update = function(currTime)
 
 MyDrone.prototype.display = function()
 { 
-    this.bodycylinderAppearance.apply();
+    this.bodycylinderAppearanceArray[this.appearanceIndex].apply();
     this.scene.pushMatrix();
     this.scene.scale(0.1, 0.1, 4);
     this.scene.translate(0, -1, -0.5);
     this.bodycylinder.display();
     this.scene.popMatrix();
 
-    this.bodycylinderAppearance.apply();
+    this.bodycylinderAppearanceArray[this.appearanceIndex].apply();
     this.scene.pushMatrix();
     this.scene.rotate(90*degToRad, 0, 1, 0);
     this.scene.translate(0, -0.1, -2);
@@ -341,14 +396,14 @@ MyDrone.prototype.display = function()
     this.bodycylinder.display();
     this.scene.popMatrix();
 
-    this.bodyAppearance.apply();
+    this.bodyAppearanceArray[this.appearanceIndex].apply();
     this.scene.pushMatrix();
     this.scene.rotate(180*degToRad, 0, 0, 1);
     this.scene.scale(0.7, 0.7, 0.7);
     this.body.display();
     this.scene.popMatrix();
 
-    this.wingcylinderAppearance.apply();
+    this.wingcylinderAppearanceArray[this.appearanceIndex].apply();
     this.scene.pushMatrix();
     this.scene.translate(2, 0.1, 0);
     this.scene.rotate(90*degToRad, 1, 0, 0);
@@ -356,7 +411,7 @@ MyDrone.prototype.display = function()
     this.wingcylinder.display();
     this.scene.popMatrix();
 
-    this.wingcylinderAppearance.apply();
+    this.wingcylinderAppearanceArray[this.appearanceIndex].apply();
     this.scene.pushMatrix();
     this.scene.translate(-2, 0.1, 0);
     this.scene.rotate(90*degToRad, 1, 0, 0);
@@ -364,7 +419,7 @@ MyDrone.prototype.display = function()
     this.wingcylinder.display();
     this.scene.popMatrix();
 
-    this.wingcylinderAppearance.apply();
+    this.wingcylinderAppearanceArray[this.appearanceIndex].apply();
     this.scene.pushMatrix();
     this.scene.translate(0, 0.1, -2);
     this.scene.rotate(90*degToRad, 1, 0, 0);
@@ -372,7 +427,7 @@ MyDrone.prototype.display = function()
     this.wingcylinder.display();
     this.scene.popMatrix();
 
-    this.wingcylinderAppearance.apply();
+    this.wingcylinderAppearanceArray[this.appearanceIndex].apply();
     this.scene.pushMatrix();
     this.scene.translate(0, 0.1, 2);
     this.scene.rotate(90*degToRad, 1, 0, 0);
@@ -396,6 +451,7 @@ MyDrone.prototype.display = function()
     this.dronelegs.display();
     this.scene.popMatrix();
 
+    //this.dronelegscylinderAppearance.apply();
     this.dronelegsAppearance.apply();
     this.scene.pushMatrix();
     this.scene.translate(-1, -1.2, -1);
@@ -403,7 +459,7 @@ MyDrone.prototype.display = function()
     this.dronelegscylinder.display();
     this.scene.popMatrix();
 
-    this.dronelegscylinderAppearance.apply();
+    //this.dronelegscylinderAppearance.apply();
     this.scene.pushMatrix();
     this.scene.translate(1, -1.2, -1);
     this.scene.scale(0.05, 0.05, 2);
